@@ -1,0 +1,60 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+
+class Car {
+private:
+	const int MAX_SPEED;
+	int speed;
+	int gear;
+	char* color;
+public:
+	Car();
+	Car(int s, int g, const char* c);
+	Car(const Car& obj):MAX_SPEED(300) {
+		speed = obj.speed;
+		gear = obj.gear;
+		color = new char[strlen(obj.color) + 1];
+		strcpy(color, obj.color);
+	}
+	void print()
+	{
+		cout << speed << ", " << gear << ", " << color<< endl;
+	}
+	~Car() {
+		cout << "소멸자 호출" << endl;
+		if(color!= NULL)
+		{
+			delete[] color;
+			color = NULL;
+		}
+	}
+};
+Car::Car(): MAX_SPEED(300)
+{
+	cout << "디폴트 생성자 호출" << endl;
+	speed = 0;
+	gear = 1;
+	color = new char[strlen("white") + 1];
+	strcpy(color,"white");
+}
+Car::Car(int s, int g, const char* c) : MAX_SPEED(300)
+{
+	cout << "매개 변수가 있는 생성자 호출" <<endl;
+	speed = s;
+	gear = g;
+	color = new char[strlen(c) + 1];
+	strcpy(color, c);
+}
+
+int main()
+{
+	Car c1;
+	c1.print();
+	Car c2(100, 0, "blue");
+	c2.print();
+	Car c3(c2);
+	c3.print();
+	return 0;
+}
