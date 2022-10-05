@@ -1,0 +1,85 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+using namespace std;
+/** Car class 매개변수는 없거나 speed ,gear,color(char*) 3개 순서*/
+class Car {
+	
+private:
+	const int MAX_SPEED;
+	int speed;
+	int gear;
+	char* color;
+public:
+	static int count;
+	static int getCount() {
+		return count;
+	}
+	Car();
+	Car(int s, int g, const char* c);
+	Car(const Car& obj) :MAX_SPEED(300) {
+		this->speed = obj.speed;
+		this->gear = obj.gear;
+		this->color = new char[strlen(obj.color) + 1];
+		strcpy(this->color, obj.color);
+	}
+	void print()
+	{
+		cout << speed << ", " << gear << ", " << color << endl;
+	}
+	~Car() {
+		cout << "소멸자 호출" << endl;
+		if (color != NULL)
+		{
+			delete[] color;
+			color = NULL;
+		}
+		count--;
+	}
+	void setspeed(int speed) {
+		this->speed = speed;
+	}
+
+	void setgear(int gear) {
+		this->gear = gear;
+	}
+	
+};
+Car::Car() : MAX_SPEED(300)
+{
+	cout << "디폴트 생성자 호출" << endl;
+	this->speed = 0;
+	this->gear = 1;
+	color = new char[strlen("white") + 1];
+	strcpy(color, "white");
+	count++;
+}
+Car::Car(int speed, int gear, const char* color) : MAX_SPEED(300)
+{
+	cout << "매개 변수가 있는 생성자 호출" << endl;
+	this->speed = speed;
+	this->gear = gear;
+	this->color = new char[strlen(color) + 1];
+	strcpy(this->color, color);
+	count++;
+}
+//정적멤버 변수 초기화
+int Car::count = 0;
+int main()
+{
+	Car* pcar = new Car(12, 3, "what");
+	pcar->print();
+	Car c1;
+	cout<< Car::getCount()<<endl;
+	Car objArray[3] = {
+		Car(0,1,"white"),
+		Car(0,2,"Red"),
+		Car()
+	};
+	
+	for (int i = 0; i < 3; i++)
+	{
+		objArray[i].print();
+	}
+	cout << Car::getCount()<<endl;
+}
