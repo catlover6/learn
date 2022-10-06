@@ -25,10 +25,20 @@ class stack:
     def show(self):
         print(self.top)
 
-a = stack()
+def evalPostfix(expr):
+    s = stack()
+    for token in expr:
+        if token in "+-*/":
+            val2 = s.pop()
+            val1 = s.pop()
+            if(token =='+'):s.push(val1+val2)
+            elif(token =='-'):s.push(val1-val2)
+            elif (token =='*'): s.push(val1*val2)
+            elif(token =='/'):s.push(val1/val2)
+        else:
+            s.push(float(token))
 
-for i in range(1,6):
-    a.push(i)
+    return s.pop()
 
-for i in range (5):
-    print(a.top)
+expr1 = ['8','2','/','3','-','3','2','*','+']
+print(evalPostfix(expr1))
