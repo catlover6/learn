@@ -6,23 +6,65 @@ using namespace std;
 		int speed;
 		int gear;
 		string color;
-
+		static int count;
 	public:
-		Car(int s = 0, int g = 1, string c = "white") : speed(s), gear(g), color(c){}
+		static int getCount() {
+			return count;
+		}
+	
+		~Car()
+		{	
+			count--;
+			cout << "소멸자 호출" << endl;
+		}
+		Car(int s = 0, int g = 1, string c = "white") : speed(s), gear(g), color(c) { count++; }
 		void print() {
 			cout << "속도" << speed << "기어 " << gear << "색상 : " << color << endl;
 		}
+		Car(const Car& obj) {
+			cout << "복사생성자 호출" << endl;
+			this->color = obj.color;
+			this->gear = obj.gear;
+			this->speed = obj.speed;
+		}
+		int getSpeed() const
+		{
+			return this->speed;
+		}
+		void setSpeed(int speed) {
+			if (speed > 0)
+				this->speed = speed;
+			else
+				this->speed = 0;
+		}
+		bool  isFaster(const Car &p)
+		{
+			if (this->getSpeed() > p.getSpeed())
+			{
+				this->print();
+				cout << "의 자동차가 더 빠름" << endl;
+				return true;
+			}
+			else
+				return false;
+			cout << "의 자동차가 더 빠름" << endl;
+		}
 	};
-
+	
+int 	Car::count = 0;
 	int main()
 	{
-		Car myCar;
+		Car* pCar = new Car;
+		Car myCar(100, 3, "red");
+		pCar[0].setSpeed(10);
+		myCar.isFaster(pCar[0]);
+		//pCar->print();
+		pCar[0].print();
+		cout << "지금까지 생성된 자동차 수 =" << Car::getCount() << endl;
 		myCar.print();
 
-		Car* pCar = new Car(0, 1, "blue");
-		pCar[0].print();
-		//pCar->print();
-
 		delete pCar;
+		cout << "지금까지 생성된 자동차 수 =" << myCar.getCount() << endl;
 		return 0;
-}
+
+	}
