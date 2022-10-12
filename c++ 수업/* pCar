@@ -22,5 +22,7 @@ using namespace std;
 		Car* pCar = new Car(0, 1, "blue");
 		pCar[0].print();
 		//pCar->print();
+
+		delete pCar;
 		return 0;
 }
