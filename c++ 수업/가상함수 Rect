@@ -1,0 +1,77 @@
+#include<iostream>
+#include<string>
+#include<stack>
+using namespace std;
+
+class Shape {
+protected:
+	int x, y;
+
+public:
+	void setOrigin(int x, int y) {
+		this->x = x;
+		this->y = y;
+	}
+	virtual void draw() = 0;
+	virtual ~Shape() {
+		cout << "셰잎 소멸" << endl;
+	};
+};
+
+class Rectangle : public Shape {
+private:
+	int width, height;
+public:
+	void setWidth(int w) {
+		width = w;
+	}
+	void setHeight(int h) {
+		height = h;
+	}
+	virtual void draw() {
+		cout << "Renctagle draw"<<endl;
+	}
+	~Rectangle() {
+		cout << "랙 소멸" << endl;
+	}
+};
+
+class Circle :public Shape {
+private:
+	int radius;
+public:
+	void setRadous(int r) {
+		radius = r;
+	}
+	void draw() {
+		cout << "Circle Draw" << endl;
+	}
+	~Circle() {
+		cout << "서클 소멸" << endl;
+	}
+};
+class Trianglea : public Shape {
+private:
+	int base, height;
+public:
+	void draw() {
+		cout << "Triangle Draw" << endl;
+	}
+	~Trianglea() {
+		cout << "삼각 소멸" << endl;
+	}
+};
+
+
+int main()
+{
+	Shape* arrayOfShapes[3];
+
+	arrayOfShapes[0] = new Rectangle();
+	arrayOfShapes[1] = new Circle();
+	arrayOfShapes[2] = new Trianglea();
+	for (int i = 0; i < 3; i++) {
+		arrayOfShapes[i]->draw();
+		delete arrayOfShapes[i];
+	}
+}
